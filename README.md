@@ -205,21 +205,30 @@ restaurant site with a 120-frame scroll-driven cinematic intro, bilingual (Engli
 
 ## upstream contributions
 
-[odysseus](https://github.com/pewdiepie-archdaemon/odysseus) is a self-hosted ai workspace (19k★). been chipping away at the security and self-hosting edges.
+[odysseus](https://github.com/pewdiepie-archdaemon/odysseus) is a self-hosted ai workspace (21k★). been chipping away at the security and self-hosting edges.
 
-![Contributor](https://img.shields.io/badge/contributor-odysseus-black?style=flat-square)
-![Stars](https://img.shields.io/github/stars/pewdiepie-archdaemon/odysseus?style=flat-square&label=upstream&color=black)
+<p>
+<a href="https://github.com/pewdiepie-archdaemon/odysseus/pulls?q=is%3Apr+author%3Atanmayraut45+is%3Amerged"><img src="https://img.shields.io/badge/%F0%9F%8F%86%20merged%20by%20maintainer-odysseus%20%C2%B7%2021k%E2%98%85-9ece6a?style=for-the-badge" alt="Merged by maintainer" /></a>
+<img src="https://img.shields.io/github/stars/pewdiepie-archdaemon/odysseus?style=for-the-badge&label=upstream&color=1a1b27" alt="Stars" />
+</p>
 
 **merged into upstream:**
 
-- **toctou race in chat streaming.** closed a check-then-use window where stream state could mutate between validation and write.
-- **route-level auth-gate.** middleware was skipping a nested route group, leaving authed-only endpoints reachable unauth'd. wired the gate at the router boundary.
-- **private-ca tls trust for self-hosted llms.** outbound client wasn't honoring custom CA bundles, breaking on-prem llm backends behind corporate roots. now reads system + user-supplied trust stores.
-- **default safesearch hardening.** web-search integration defaulted to off. flipped the default and gated the override behind explicit admin config.
-- **docker container permissions.** image was running as root with world-writable volume mounts. dropped to non-root uid, tightened mount perms, fixed the entrypoint.
-- and 4 more across auth, security, and container hardening.
+- [**#782**](https://github.com/pewdiepie-archdaemon/odysseus/pull/782) — fix TOCTOU race in chat stream status endpoint. closed a check-then-use window where stream state could mutate between validation and write.
+- [**#776**](https://github.com/pewdiepie-archdaemon/odysseus/pull/776) — fix searxng container permission errors during setup. dropped to non-root uid, tightened mount perms, fixed the entrypoint.
 
-plus 8 more queued for review →
+**on the merge-candidate path** *(positive maintainer review, queued for rebase + final pass)*
+
+- [**#784**](https://github.com/pewdiepie-archdaemon/odysseus/pull/784) — exempt task webhook trigger from session auth. *peer-approved*, awaiting maintainer merge.
+- [**#785**](https://github.com/pewdiepie-archdaemon/odysseus/pull/785) — honor `AUTH_ENABLED=false` in route-level auth gate. *cleanest-looking fix*.
+- [**#783**](https://github.com/pewdiepie-archdaemon/odysseus/pull/783) — lift deep-research hard timeout into a setting.
+- [**#786**](https://github.com/pewdiepie-archdaemon/odysseus/pull/786) — stop wiping session model on endpoint delete, support in-place updates.
+- [**#769**](https://github.com/pewdiepie-archdaemon/odysseus/pull/769) — support extra CA bundle for private-CA LLM providers. outbound client wasn't honoring custom CA bundles, breaking on-prem llm backends behind corporate roots.
+- [**#763**](https://github.com/pewdiepie-archdaemon/odysseus/pull/763) — apply SafeSearch by default across search providers.
+
+**queued for review**
+
+- [**#759**](https://github.com/pewdiepie-archdaemon/odysseus/pull/759) — expose `manage_notes` via native function calling.
 
 [full contributor history on odysseus](https://github.com/pewdiepie-archdaemon/odysseus/pulls?q=is%3Apr+author%3Atanmayraut45)
 
