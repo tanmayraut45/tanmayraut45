@@ -205,30 +205,31 @@ restaurant site with a 120-frame scroll-driven cinematic intro, bilingual (Engli
 
 ## upstream contributions
 
-[odysseus](https://github.com/pewdiepie-archdaemon/odysseus) is a self-hosted ai workspace (21k★). been chipping away at the security and self-hosting edges.
+[odysseus](https://github.com/pewdiepie-archdaemon/odysseus) is a self-hosted ai workspace (21k★). been chipping away at the security and self-hosting edges. **15 reported issues closed across 9 PRs.**
 
 <p>
 <a href="https://github.com/pewdiepie-archdaemon/odysseus/pulls?q=is%3Apr+author%3Atanmayraut45+is%3Amerged"><img src="https://img.shields.io/badge/%F0%9F%8F%86%20merged%20by%20maintainer-odysseus%20%C2%B7%2021k%E2%98%85-9ece6a?style=for-the-badge" alt="Merged by maintainer" /></a>
+<img src="https://img.shields.io/badge/issues%20closed-15-7aa2f7?style=for-the-badge" alt="15 issues closed" />
 <img src="https://img.shields.io/github/stars/pewdiepie-archdaemon/odysseus?style=for-the-badge&label=upstream&color=1a1b27" alt="Stars" />
 </p>
 
 **merged into upstream:**
 
-- [**#782**](https://github.com/pewdiepie-archdaemon/odysseus/pull/782) — fix TOCTOU race in chat stream status endpoint. closed a check-then-use window where stream state could mutate between validation and write.
-- [**#776**](https://github.com/pewdiepie-archdaemon/odysseus/pull/776) — fix searxng container permission errors during setup. dropped to non-root uid, tightened mount perms, fixed the entrypoint.
+- [**#782**](https://github.com/pewdiepie-archdaemon/odysseus/pull/782) — fix TOCTOU race in chat stream status endpoint. *closes #658*
+- [**#776**](https://github.com/pewdiepie-archdaemon/odysseus/pull/776) — fix searxng container permission errors during setup. *closes #721*
 
-**on the merge-candidate path** *(positive maintainer review, queued for rebase + final pass)*
+**rebased + answered, waiting on maintainer:**
 
-- [**#784**](https://github.com/pewdiepie-archdaemon/odysseus/pull/784) — exempt task webhook trigger from session auth. *peer-approved*, awaiting maintainer merge.
-- [**#785**](https://github.com/pewdiepie-archdaemon/odysseus/pull/785) — honor `AUTH_ENABLED=false` in route-level auth gate. *cleanest-looking fix*.
-- [**#783**](https://github.com/pewdiepie-archdaemon/odysseus/pull/783) — lift deep-research hard timeout into a setting.
-- [**#786**](https://github.com/pewdiepie-archdaemon/odysseus/pull/786) — stop wiping session model on endpoint delete, support in-place updates.
-- [**#769**](https://github.com/pewdiepie-archdaemon/odysseus/pull/769) — support extra CA bundle for private-CA LLM providers. outbound client wasn't honoring custom CA bundles, breaking on-prem llm backends behind corporate roots.
-- [**#763**](https://github.com/pewdiepie-archdaemon/odysseus/pull/763) — apply SafeSearch by default across search providers.
+- [**#784**](https://github.com/pewdiepie-archdaemon/odysseus/pull/784) — exempt task webhook trigger from session auth. *closes #621* (+ bonus: #640, #643)
+- [**#785**](https://github.com/pewdiepie-archdaemon/odysseus/pull/785) — honor `AUTH_ENABLED=false` in route-level auth gate. *closes #622* (+ bonus: #634, #804)
+- [**#786**](https://github.com/pewdiepie-archdaemon/odysseus/pull/786) — stop wiping session model on endpoint delete, support in-place updates. *closes #587*
+- [**#783**](https://github.com/pewdiepie-archdaemon/odysseus/pull/783) — lift deep-research hard timeout into a setting. *closes #595* (+ bonus: #731)
+- [**#769**](https://github.com/pewdiepie-archdaemon/odysseus/pull/769) — support extra CA bundle for private-CA LLM providers. *closes #722*
+- [**#763**](https://github.com/pewdiepie-archdaemon/odysseus/pull/763) — apply SafeSearch by default across search providers. *closes #718*
 
-**queued for review**
+**queued for first review:**
 
-- [**#759**](https://github.com/pewdiepie-archdaemon/odysseus/pull/759) — expose `manage_notes` via native function calling.
+- [**#759**](https://github.com/pewdiepie-archdaemon/odysseus/pull/759) — expose `manage_notes` via native function calling. *closes #174, #713*
 
 [full contributor history on odysseus](https://github.com/pewdiepie-archdaemon/odysseus/pulls?q=is%3Apr+author%3Atanmayraut45)
 
