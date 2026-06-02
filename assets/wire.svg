@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="280" viewBox="0 0 880 280" font-family="'JetBrains Mono', 'Fira Code', monospace">
+  <title>Industrial Briefs Wire</title>
+  <desc>Live wire-service ticker of Industrial Briefs dispatches.</desc>
+
+  <!-- Background -->
+  <rect width="880" height="280" fill="#0a0a0a"/>
+
+  <!-- Top strip -->
+  <text x="24" y="26" font-size="11" fill="#565f89" letter-spacing="0.5">
+    INDUSTRIAL BRIEFS WIRE  ·  14:32 IST  ·  9/10 AGENTS UP  ·  QUEUE: 3
+  </text>
+
+  <!-- Top separator -->
+  <line x1="24" y1="38" x2="856" y2="38" stroke="#1f2335" stroke-width="1"/>
+
+  <!-- Wire dispatches: newest at top (full opacity), oldest at bottom (~65%) -->
+  <g font-size="13" font-family="'JetBrains Mono', 'Fira Code', monospace" xml:space="preserve">
+
+    <!-- Row 1 — 14:32 MUMBAI — newest, brightest -->
+    <g opacity="1.00">
+      <text x="24"  y="60" fill="#f7c843">14:32</text>
+      <text x="84"  y="60" fill="#c0caf5">MUMBAI      </text>
+      <text x="216" y="60" fill="#f7c843">nifty-close         </text>
+      <text x="404" y="60" fill="#c0caf5">Markets snap two-week...</text>
+    </g>
+
+    <!-- Row 2 — 14:18 BERLIN -->
+    <g opacity="0.96">
+      <text x="24"  y="82" fill="#f7c843">14:18</text>
+      <text x="84"  y="82" fill="#c0caf5">BERLIN      </text>
+      <text x="216" y="82" fill="#f7c843">bayer-merger        </text>
+      <text x="404" y="82" fill="#c0caf5">Regulators signal app...</text>
+    </g>
+
+    <!-- Row 3 — 13:55 LAGOS -->
+    <g opacity="0.92">
+      <text x="24"  y="104" fill="#f7c843">13:55</text>
+      <text x="84"  y="104" fill="#c0caf5">LAGOS       </text>
+      <text x="216" y="104" fill="#f7c843">dangote-q2          </text>
+      <text x="404" y="104" fill="#c0caf5">Refinery output beats...</text>
+    </g>
+
+    <!-- Row 4 — 13:41 SEOUL -->
+    <g opacity="0.88">
+      <text x="24"  y="126" fill="#f7c843">13:41</text>
+      <text x="84"  y="126" fill="#c0caf5">SEOUL       </text>
+      <text x="216" y="126" fill="#f7c843">samsung-hbm         </text>
+      <text x="404" y="126" fill="#c0caf5">Supply tightens after...</text>
+    </g>
+
+    <!-- Row 5 — 13:22 DELHI -->
+    <g opacity="0.84">
+      <text x="24"  y="148" fill="#f7c843">13:22</text>
+      <text x="84"  y="148" fill="#c0caf5">DELHI       </text>
+      <text x="216" y="148" fill="#f7c843">rbi-rate-hold       </text>
+      <text x="404" y="148" fill="#c0caf5">Central bank holds rep...</text>
+    </g>
+
+    <!-- Row 6 — 12:58 LONDON -->
+    <g opacity="0.80">
+      <text x="24"  y="170" fill="#f7c843">12:58</text>
+      <text x="84"  y="170" fill="#c0caf5">LONDON      </text>
+      <text x="216" y="170" fill="#f7c843">shell-divest        </text>
+      <text x="404" y="170" fill="#c0caf5">North Sea assets up f...</text>
+    </g>
+
+    <!-- Row 7 — 12:30 SAO PAULO -->
+    <g opacity="0.76">
+      <text x="24"  y="192" fill="#f7c843">12:30</text>
+      <text x="84"  y="192" fill="#c0caf5">SAO PAULO   </text>
+      <text x="216" y="192" fill="#f7c843">vale-iron           </text>
+      <text x="404" y="192" fill="#c0caf5">Ore prices flat on Ch...</text>
+    </g>
+
+    <!-- Row 8 — 12:11 TOKYO -->
+    <g opacity="0.72">
+      <text x="24"  y="214" fill="#f7c843">12:11</text>
+      <text x="84"  y="214" fill="#c0caf5">TOKYO       </text>
+      <text x="216" y="214" fill="#f7c843">yen-intervene       </text>
+      <text x="404" y="214" fill="#c0caf5">MOF signals readiness...</text>
+    </g>
+
+    <!-- Row 9 — 11:47 JAKARTA -->
+    <g opacity="0.68">
+      <text x="24"  y="236" fill="#f7c843">11:47</text>
+      <text x="84"  y="236" fill="#c0caf5">JAKARTA     </text>
+      <text x="216" y="236" fill="#f7c843">garuda-debt         </text>
+      <text x="404" y="236" fill="#c0caf5">Airline talks creditor...</text>
+    </g>
+
+    <!-- Row 10 — 11:20 HCMC — oldest, dimmest -->
+    <g opacity="0.65">
+      <text x="24"  y="258" fill="#f7c843">11:20</text>
+      <text x="84"  y="258" fill="#c0caf5">HCMC        </text>
+      <text x="216" y="258" fill="#f7c843">vinfast-eu          </text>
+      <text x="404" y="258" fill="#c0caf5">Tariff response narro...</text>
+    </g>
+  </g>
+
+  <!-- Bottom separator -->
+  <line x1="24" y1="266" x2="856" y2="266" stroke="#1f2335" stroke-width="1"/>
+
+  <!-- Blinking cursor + bureau chief line -->
+  <g font-size="11">
+    <text x="24" y="278" fill="#f7c843" font-size="13" font-weight="bold">
+      _
+      <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite"/>
+    </text>
+    <text x="40" y="278" fill="#565f89" font-style="italic">
+      BUREAU CHIEF: Tanmay Raut. Built the bureau. Now watches it run.
+    </text>
+  </g>
+</svg>

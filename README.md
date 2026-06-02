@@ -53,6 +53,94 @@ sole engineer at visioneerit, building from pune on est hours. ship things end-t
 
 <br/>
 
+<!-- =========================================================================
+     3 NEW SECTIONS BELOW — pick whichever you want to keep.
+     The previous "signal" section (stats widgets, streak, snake) has been removed.
+     ========================================================================= -->
+
+## ◢ the newsroom
+
+> the industrial briefs newsroom covers four subjects: energy, manufacturing,
+> logistics, and tanmay raut. same agents. same editorial gate. one of them
+> writes this section daily.
+
+<!-- NEWSROOM:START -->
+> from industrial briefs · issue #412 · 2026-06-02 · 04:12 IST
+
+subject: tanmay raut, full-stack and ai engineer at visioneerit, sole technical hire. raut continues to operate industrial briefs as a one-person newsroom, nine agents on n8n, supabase, and ghost, currently shipping issue #412 without manual intervention.
+
+altamiq remains the day job, EST overlap held at four hours. previously founding engineer at brainchain where he pushed thoughtpro to the play store. signal worth noting: 11 commits in the last 24h, one open PR on the curator-agent retry path.
+
+— drafted by profile-agent · edited by editor-agent · n8n exec #84221
+<!-- NEWSROOM:END -->
+
+<p align="center">
+  <img src="assets/newsroom.svg" alt="Industrial Briefs newsroom: live 9-agent status panel" width="100%" />
+</p>
+
+<p align="center">
+  <img src="assets/wire.svg" alt="Industrial Briefs wire-service ticker" width="100%" />
+</p>
+
+<br/>
+
+## ◢ build health
+
+> a status page treats every shipped thing as a service.
+> the operator panel treats me as one too. every metric below is derived
+> only from public github data. honest, falsifiable, instrument-grade.
+
+<p align="center">
+  <img src="assets/health.svg" alt="Build health: products, agents, and operator status" width="100%" />
+</p>
+
+<p align="center">
+  <img src="assets/dosimeter.svg" alt="Personal dosimeter: cumulative weekly exposure" width="100%" />
+</p>
+
+<br/>
+
+## ◢ tanmay.diff
+
+> career as version control. red is who i used to be. green is who i am now.
+> the changelog accrues every time something material changes.
+
+<p align="center">
+  <img src="assets/diff-hero.svg" alt="git diff tanmay.2024.ts → tanmay.2026.ts" width="100%" />
+</p>
+
+<!-- STANDUP:START -->
+> today's standup — claude, 2026-06-02 09:00 IST
+
+shipped: profile-agent now drafts in-voice, no more em-dashes leaking through
+blocked: ghost api rate-limits during the 04:00 IST publish window
+next:    swap the curator-agent retry logic, supabase queue is backing up
+energy:  steady. four hours of deep work before the EST overlap starts.
+
+— generated from 11 commits across 3 repos
+<!-- STANDUP:END -->
+
+**changelog**
+
+```
+v0.9.1 — 2026-06-02
+  added a changelog entry about adding the changelog.
+  pinky promise: last meta entry.
+
+v0.9   — 2026-05-27
+  added this changelog.
+
+v0.6   — 2026-03-11
+  added n8n + claude. removed flask (haven't touched it in two
+  years and the claim was starting to feel load-bearing).
+
+v0.3   — 2026-01-04
+  replaced "passionate about clean code" with three repos
+  that demonstrate it. net reduction: 4 words, +2 links.
+```
+
+<br/>
+
 ## featured work
 
 <table>
@@ -216,38 +304,6 @@ restaurant site with a 120-frame scroll-driven cinematic intro, bilingual (Engli
 plus 8 more queued for review →
 
 [full contributor history on odysseus](https://github.com/pewdiepie-archdaemon/odysseus/pulls?q=is%3Apr+author%3Atanmayraut45)
-
-<br/>
-
-## signal
-
-<p align="center">
-  <a href="https://github.com/tanmayraut45">
-    <img src="https://github-readme-activity-graph.vercel.app/graph?username=tanmayraut45&amp;bg_color=1a1b27&amp;color=70a5fd&amp;line=bf91f3&amp;point=38bdae&amp;area=true&amp;area_color=70a5fd&amp;hide_border=true&amp;custom_title=contribution%20graph" width="98%" alt="contribution graph" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/tanmayraut45">
-    <img src="https://github-readme-stats.vercel.app/api?username=tanmayraut45&amp;show_icons=true&amp;theme=tokyonight&amp;hide_border=true&amp;count_private=true&amp;include_all_commits=true&amp;rank_icon=github" height="180" alt="GitHub Stats" />
-  </a>
-  <a href="https://github.com/tanmayraut45">
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=tanmayraut45&amp;layout=compact&amp;theme=tokyonight&amp;hide_border=true&amp;langs_count=8" height="180" alt="Top Languages" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/tanmayraut45">
-    <img src="https://streak-stats.demolab.com?user=tanmayraut45&amp;theme=tokyonight&amp;hide_border=true&amp;date_format=M%20j%5B%2C%20Y%5D" height="180" alt="GitHub Streak" />
-  </a>
-  <a href="https://github.com/tanmayraut45">
-    <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=tanmayraut45&amp;theme=tokyonight" height="180" alt="Profile Summary" />
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/tanmayraut45/tanmayraut45/output/snake.svg" alt="snake eating my contributions" width="98%" />
-</p>
 
 <br/>
 

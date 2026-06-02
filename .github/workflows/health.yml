@@ -1,0 +1,222 @@
+name: health
+
+# Regenerates assets/health.svg every hour from real uptime + operator metrics.
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: health
+  cancel-in-progress: true
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: install deps
+        run: pip install --quiet requests
+
+      - name: ensure dirs and stub template
+        run: |
+          set -euo pipefail
+          mkdir -p assets data templates
+          if [ ! -f templates/health.svg.template ]; then
+            cat > templates/health.svg.template <<'TPL'
+          <svg xmlns="http://www.w3.org/2000/svg" width="640" height="80" viewBox="0 0 640 80">
+            <rect width="640" height="80" fill="#0b0d10"/>
+            <text x="16" y="28" fill="#d7dadc" font-family="monospace" font-size="14">health · rendered at {RENDERED_AT}</text>
+            <text x="16" y="50" fill="#9aa0a6" font-family="monospace" font-size="12">vit:{VIT} demo:{DEMO} brief:{BRIEF} thoughtpro:{THOUGHTPRO}</text>
+            <text x="16" y="68" fill="#9aa0a6" font-family="monospace" font-size="12">commits24h:{COMMITS_24H} lastpush:{LAST_PUSH} stalebranches:{STALE_BRANCHES}</text>
+          </svg>
+          TPL
+          fi
+          if [ ! -f data/health.json ]; then
+            echo '{"targets":{},"updated":null}' > data/health.json
+          fi
+
+      - name: probe uptime
+        run: |
+          set -uo pipefail
+          probe() {
+            local url="$1"
+            local code
+            code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 15 -A "tanmayraut45-health/1.0" -I "$url" || echo "000")
+            if [ "$code" = "000" ] || [ "$code" = "405" ]; then
+              code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 15 -A "tanmayraut45-health/1.0" "$url" || echo "000")
+            fi
+            echo "$code"
+          }
+          {
+            echo "vit=$(probe https://vit.altamiq.com)"
+            echo "demo=$(probe https://demo.altamiq.com)"
+            echo "brief=$(probe https://industrialbriefs.com)"
+            echo "thoughtpro=$(probe 'https://play.google.com/store/apps/details?id=com.thoughtpro')"
+          } > .cache_probe.env
+          cat .cache_probe.env
+
+      - name: fetch github operator metrics
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USER: tanmayraut45
+        run: |
+          set -euo pipefail
+          SINCE=$(python -c "import datetime; print((datetime.datetime.utcnow() - datetime.timedelta(hours=24)).strftime('%Y-%m-%dT%H:%M:%SZ'))")
+          gh api graphql -f query='
+            query($login: String!, $since: GitTimestamp!) {
+              user(login: $login) {
+                contributionsCollection(from: $since) {
+                  totalCommitContributions
+                }
+                repositories(first: 50, ownerAffiliations: OWNER, isFork: false, orderBy: {field: PUSHED_AT, direction: DESC}) {
+                  nodes {
+                    nameWithOwner
+                    pushedAt
+                    refs(refPrefix: "refs/heads/", first: 100) {
+                      nodes { name target { ... on Commit { committedDate } } }
+                    }
+                  }
+                }
+              }
+            }
+          ' -f login="$GH_USER" -f since="$SINCE" > .cache_gh.json || echo '{}' > .cache_gh.json
+
+      - name: update rolling json and render svg
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python <<'PY'
+          import json, os, pathlib, datetime, re
+
+          # Load probe results
+          probe = {}
+          for line in pathlib.Path('.cache_probe.env').read_text().splitlines():
+              if '=' in line:
+                  k, v = line.split('=', 1)
+                  probe[k.strip()] = v.strip()
+
+          now = datetime.datetime.utcnow().replace(microsecond=0)
+          now_iso = now.isoformat() + 'Z'
+
+          # Update rolling 30-day bitmap in data/health.json
+          data_path = pathlib.Path('data/health.json')
+          try:
+              data = json.loads(data_path.read_text())
+          except Exception:
+              data = {"targets": {}, "updated": None}
+
+          if 'targets' not in data or not isinstance(data['targets'], dict):
+              data['targets'] = {}
+
+          # 30 days * 24 hours = 720 max samples per target
+          MAX_SAMPLES = 720
+          for name in ('vit', 'demo', 'brief', 'thoughtpro'):
+              t = data['targets'].setdefault(name, {"samples": []})
+              code = probe.get(name, '000')
+              ok = 1 if code.startswith('2') or code.startswith('3') else 0
+              t['samples'].append({"t": now_iso, "code": code, "ok": ok})
+              if len(t['samples']) > MAX_SAMPLES:
+                  t['samples'] = t['samples'][-MAX_SAMPLES:]
+              # also compute uptime pct over window
+              total = len(t['samples'])
+              up = sum(s['ok'] for s in t['samples'])
+              t['uptime_pct'] = round(100.0 * up / total, 2) if total else 0.0
+
+          data['updated'] = now_iso
+          data_path.write_text(json.dumps(data, indent=2) + '\n')
+
+          # Parse github metrics
+          gh = {}
+          try:
+              gh = json.loads(pathlib.Path('.cache_gh.json').read_text())
+          except Exception:
+              gh = {}
+
+          commits_24h = 0
+          last_push = '—'
+          stale_branches = 0
+          try:
+              u = gh['data']['user']
+              commits_24h = u['contributionsCollection'].get('totalCommitContributions', 0) or 0
+              repos = u['repositories']['nodes']
+              if repos:
+                  pushed_dates = [r.get('pushedAt') for r in repos if r.get('pushedAt')]
+                  if pushed_dates:
+                      last_push = max(pushed_dates)
+              cutoff = now - datetime.timedelta(days=14)
+              for r in repos:
+                  for ref in (r.get('refs', {}) or {}).get('nodes', []) or []:
+                      target = ref.get('target') or {}
+                      cd = target.get('committedDate')
+                      if not cd:
+                          continue
+                      try:
+                          d = datetime.datetime.strptime(cd, '%Y-%m-%dT%H:%M:%SZ')
+                          if d < cutoff and (ref.get('name') or '') not in ('main', 'master'):
+                              stale_branches += 1
+                      except Exception:
+                          pass
+          except Exception as ex:
+              print(f"gh parse warn: {ex}")
+
+          # Render SVG from template
+          tpl_path = pathlib.Path('templates/health.svg.template')
+          tpl = tpl_path.read_text()
+
+          def fmt_target(name):
+              code = probe.get(name, '000')
+              pct = data['targets'].get(name, {}).get('uptime_pct', 0.0)
+              return f"{code}({pct}%)"
+
+          replacements = {
+              '{RENDERED_AT}': now_iso,
+              '{VIT}': fmt_target('vit'),
+              '{DEMO}': fmt_target('demo'),
+              '{BRIEF}': fmt_target('brief'),
+              '{THOUGHTPRO}': fmt_target('thoughtpro'),
+              '{COMMITS_24H}': str(commits_24h),
+              '{LAST_PUSH}': last_push,
+              '{STALE_BRANCHES}': str(stale_branches),
+          }
+          svg = tpl
+          for k, v in replacements.items():
+              # escape <,>,& in dynamic values to keep svg valid
+              safe = str(v).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+              svg = svg.replace(k, safe)
+
+          # If template still has unresolved {KEY} tokens, blank them
+          svg = re.sub(r'\{[A-Z_]+\}', '', svg)
+
+          pathlib.Path('assets/health.svg').write_text(svg)
+          print("rendered assets/health.svg")
+          PY
+
+      - name: commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/health.svg data/health.json templates/health.svg.template || true
+          if git diff --cached --quiet; then
+            echo "no changes"
+            exit 0
+          fi
+          git commit -m "health: $(date -u -Iseconds)"
+          git push
