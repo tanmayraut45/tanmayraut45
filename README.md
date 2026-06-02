@@ -53,6 +53,12 @@ sole engineer at visioneerit, building from pune on est hours. ship things end-t
 
 <br/>
 
+<p align="center">
+  <img src="https://miro.medium.com/v2/resize:fit:996/1*um19N_oeTKlmrHMov0O5bA.gif" alt="late-night coding" width="560" />
+</p>
+
+<br/>
+
 ## featured work
 
 <table>
